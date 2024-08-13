@@ -43,10 +43,34 @@ function startGame() {
             tile.addEventListener("drop", dragDrop);
             tile.addEventListener("dragend", dragEnd);
 
+            tile.addEventListener("touchstart", touchStart);
+            tile.addEventListener("touchmove", touchMove);
+            tile.addEventListener("touchend", touchEnd);
+            
             document.getElementById("board").append(tile);
             row.push(tile);
         }
         board.push(row);
+    }
+}
+function touchStart(e) {
+    e.preventDefault();
+    currTile = this;
+}
+
+function touchMove(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (element && element.tagName === 'IMG') {
+        otherTile = element;
+    }
+}
+
+function touchEnd(e) {
+    e.preventDefault();
+    if (currTile && otherTile) {
+        dragEnd();  // Call your existing dragEnd logic
     }
 }
 
